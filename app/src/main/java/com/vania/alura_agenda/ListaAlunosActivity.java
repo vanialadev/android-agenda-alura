@@ -1,7 +1,10 @@
 package com.vania.alura_agenda;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -76,17 +79,53 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(info.position);
+
+        MenuItem itemLigacao = menu.add("Ligar");
+        itemLigacao.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (ActivityCompat.checkSelfPermission(ListaAlunosActivity.this, android.Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(ListaAlunosActivity.this,
+                            new String[]{android.Manifest.permission.CALL_PHONE}, 123);
+                }else {
+                    Intent intentLigacao = new Intent(Intent.ACTION_CALL);
+                    intentLigacao.setData(Uri.parse("tel:" + aluno.getTelefone()));
+                    startActivity(intentLigacao);
+                }
+                return false;
+            }
+        });
+
+        MenuItem itemSite = menu.add("Visitar site");
+        Intent intentSite = new Intent(Intent.ACTION_VIEW);
+
+        String site = aluno.getSite();
+        if (!site.startsWith("https://")) {
+            site = "https://" + site;
+        }
+
+        intentSite.setData(Uri.parse(site));
+        itemSite.setIntent(intentSite);
+
+        MenuItem itemSMS = menu.add("Enviar SMS");
+        Intent intentSMS = new Intent(Intent.ACTION_VIEW) ;
+        intentSMS.setData(Uri.parse("sms:" + aluno.getTelefone()));
+        itemSMS.setIntent(intentSMS);
+
+        MenuItem itemMapa = menu.add("Visualizar no mapa");
+        Intent intentMapa = new Intent(Intent.ACTION_VIEW);
+        intentMapa.setData(Uri.parse("geo:0,0?q=" + aluno.getEndereco()));
+        itemMapa.setIntent(intentMapa);
+
         MenuItem deletar = menu.add("Deletar");
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(info.position);
-
                 Toast.makeText(ListaAlunosActivity.this, "Deletar o aluno " + aluno.getNome(), Toast.LENGTH_SHORT).show();
-
-
                 AlunoDAO dao = new AlunoDAO(ListaAlunosActivity.this);
                 dao.deleta(aluno);
                 dao.close();
@@ -99,9 +138,24 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 }
 
-
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        //toda vidA QUE UMA PERMISSAO É ACEITA OU NEGADA ELA VEM OPRA ESSE MÉTDO, ENTÃO
+//        //AQUI EU PODERIA COLOCAR PRA A LIGAÇÃO SER FEITA IMEDIATAMENTE PORQUE SE EU NAO COLOC AAQUI EU TEHO QUE IR DE NOVO NO CONTEXTmENU PRA FAZER
+//        // LIGAÇÃO. COMO ISSO É UM METODO PRA TODAS AS PERMISSOES A GNT PRECISA DO requestCode QUE NO MEU CASO É O 123 WNTAO SE POR EXEPLO TIVESEM DUAS
+//        if( requestCode == 123){
+//            //faz lilgação
+//        } else if (requestCode == 456){
+//            //faz oura cpoisa
+//        }
+//    }
 
 //conexao com o banco
 //faz uma busca pra trazer s alunos
 //popula o array de string
+//fecha o banco
+//conexao com o baco
+//faz uma query
 //fecha o banco
