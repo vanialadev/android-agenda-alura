@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lista_alunos"/>
+
+    <Button
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:text="+"
+        android:textColor="#ffffff"
+        android:textSize="40sp"
+        android:elevation="6dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/fundo"
+        android:id="@+id/novo_aluno"/>
+
+</RelativeLayout>
+
+
+    <!--android:elevation="6dp"   botão flutuante vamos indicar qual a elevação do botão
+    através do atributo elevation e acrescentamos que estará a 6dp de distância do fundo da tela.-->
+
+    <!--Para poder fazer com que a sombra apareça falta um atributo que acrescentaremos depois do background
+     que é o stateListAnimator atribuindo nele o @null. O stateListAnimator vai subscrever o comportamento
+      da sombra. Ficaremos com o seguinte, android:stateListAnimator="@null".-->
+
+    <!--Nos Androids mais antigos teremos que inserir esse atributo de stateListAnimator com essa
+     classificação de nulo para desenhar o que queremos.-->
