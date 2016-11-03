@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.vania.alura_agenda.adapter.AlunosAdapter;
-import com.vania.alura_agenda.converter.AlunoConverter;
 import com.vania.alura_agenda.dao.AlunoDAO;
 import com.vania.alura_agenda.modelo.Aluno;
 
@@ -109,14 +108,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_enviar_notas:
-               AlunoDAO dao = new AlunoDAO(this);
-                List<Aluno> alunos = dao.buscaAlunos();
-                dao.close();
+                new EnviaAlunosTask(this).execute();
 
-                AlunoConverter conversor = new AlunoConverter();
-                String json = conversor.converteParaJSON(alunos);
-
-                Toast.makeText(this, json, Toast.LENGTH_LONG).show();
                 break;
         }
 
