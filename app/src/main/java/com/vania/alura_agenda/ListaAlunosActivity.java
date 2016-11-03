@@ -1,9 +1,11 @@
 package com.vania.alura_agenda;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
@@ -24,7 +26,15 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     private ListView listaAlunos;
 
+    private static final int MY_PERMISSIONS_REQUEST_CALL = 123;
+
+    private static final int MY_PERMISSIONS_REQUEST_SMS = 456;
+
+
     private void carregaLista() {
+
+
+
         AlunoDAO dao = new AlunoDAO(this);//cria o dao
         List<Aluno> alunos = dao.buscaAlunos(); //busca os lunos e joga a lista d e alunos
         dao.close(); //fecha o dao
@@ -41,6 +51,10 @@ public class ListaAlunosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
+
+        if (checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[] { Manifest.permission.RECEIVE_SMS } , MY_PERMISSIONS_REQUEST_SMS);
+        }
 
         listaAlunos = (ListView) findViewById(R.id.lista_alunos);
 
@@ -91,7 +105,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 if (ActivityCompat.checkSelfPermission(ListaAlunosActivity.this, android.Manifest.permission.CALL_PHONE)
                         != PackageManager.PERMISSION_GRANTED){
                     ActivityCompat.requestPermissions(ListaAlunosActivity.this,
-                            new String[]{android.Manifest.permission.CALL_PHONE}, 123);
+                            new String[]{android.Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL);
                 }else {
                     Intent intentLigacao = new Intent(Intent.ACTION_CALL);
                     intentLigacao.setData(Uri.parse("tel:" + aluno.getTelefone()));
@@ -138,21 +152,22 @@ public class ListaAlunosActivity extends AppCompatActivity {
         });
 
     }
-}
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        //toda vidA QUE UMA PERMISSAO É ACEITA OU NEGADA ELA VEM OPRA ESSE MÉTDO, ENTÃO
-//        //AQUI EU PODERIA COLOCAR PRA A LIGAÇÃO SER FEITA IMEDIATAMENTE PORQUE SE EU NAO COLOC AAQUI EU TEHO QUE IR DE NOVO NO CONTEXTmENU PRA FAZER
-//        // LIGAÇÃO. COMO ISSO É UM METODO PRA TODAS AS PERMISSOES A GNT PRECISA DO requestCode QUE NO MEU CASO É O 123 WNTAO SE POR EXEPLO TIVESEM DUAS
-//        if( requestCode == 123){
-//            //faz lilgação
-//        } else if (requestCode == 456){
-//            //faz oura cpoisa
-//        }
-//    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        //toda vidA QUE UMA PERMISSAO É ACEITA OU NEGADA ELA VEM OPRA ESSE MÉTDO, ENTÃO
+        //AQUI EU PODERIA COLOCAR PRA A LIGAÇÃO SER FEITA IMEDIATAMENTE PORQUE SE EU NAO COLOC AAQUI EU TEHO QUE IR DE NOVO NO CONTEXTmENU PRA FAZER
+        // LIGAÇÃO. COMO ISSO É UM METODO PRA TODAS AS PERMISSOES A GNT PRECISA DO requestCode QUE NO MEU CASO É O 123 WNTAO SE POR EXEPLO TIVESEM DUAS
+        if( requestCode == MY_PERMISSIONS_REQUEST_CALL){
+            //faz lilgação
+        } else if (requestCode == MY_PERMISSIONS_REQUEST_SMS){
+
+        }
+    }
+}
 
 //conexao com o banco
 //faz uma busca pra trazer s alunos

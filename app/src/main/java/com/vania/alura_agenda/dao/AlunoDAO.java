@@ -12,53 +12,50 @@ import com.vania.alura_agenda.modelo.Aluno;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 /**
  * Created by vania on 16/07/16.
  */
 public class AlunoDAO extends SQLiteOpenHelper {
-
     public AlunoDAO(Context context) {
         super(context, "Agenda", null, 2);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "CREATE TABLE Alunos(id INTEGER PRIMARY KEY, " +
-                "nome TEXT NOT NULL," +
-                "endereco TEXT," +
-                "telefone TEXT," +
-                "site TEXT," +
-                "nota REAL" +
+    public void onCreate(SQLiteDatabase db) {
+        String sql = "CREATE TABLE Alunos (id INTEGER PRIMARY KEY, " +
+                "nome TEXT NOT NULL, " +
+                "endereco TEXT, " +
+                "telefone TEXT, " +
+                "site TEXT, " +
+                "nota REAL, " +
                 "caminhoFoto TEXT);";
-        sqLiteDatabase.execSQL(sql)
-
-        ;
+        db.execSQL(sql);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-//       String sql = "DROP TABLE IF EXISTS Alunos;";
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        //String sql = "DROP TABLE IF EXISTS Alunos;";
         String sql = "";
         switch (oldVersion) {
             case 1:
-                sql = "ALTER TABLE Alunos ADD COLUMN caminhoFoto TEXT;";
-                sqLiteDatabase.execSQL(sql); // indo para versao 2
+                sql = "ALTER TABLE Alunos ADD COLUMN caminhoFoto TEXT";
+                db.execSQL(sql); // indo para versao 2
         }
+
     }
 
+    public void insere(Aluno aluno) {
+        SQLiteDatabase db = getWritableDatabase();
 
-    public void inserir(Aluno aluno) {
-        SQLiteDatabase database = getWritableDatabase();
+        ContentValues dados = pegaDadosDoAluno(aluno);
 
-        ContentValues dados = getContentValuesDoALuno(aluno);
-
-        database.insert("Alunos", null, dados);
-
-
+        db.insert("Alunos", null, dados);
     }
 
     @NonNull
-    private ContentValues getContentValuesDoALuno(Aluno aluno) {
+    private ContentValues pegaDadosDoAluno(Aluno aluno) {
         ContentValues dados = new ContentValues();
         dados.put("nome", aluno.getNome());
         dados.put("endereco", aluno.getEndereco());
@@ -71,11 +68,11 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     public List<Aluno> buscaAlunos() {
         String sql = "SELECT * FROM Alunos;";
-        SQLiteDatabase database = getReadableDatabase();
-        Cursor c = database.rawQuery(sql, null); //o cursor aponto pro ewsultado da busca
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(sql, null);//o cursor aponto pro ewsultado da busca
 
         List<Aluno> alunos = new ArrayList<>();
-        while (c.moveToNext()) { //move o curso pra proxima linha
+        while (c.moveToNext()) {//move o curso pra proxima linha
             Aluno aluno = new Aluno();
             aluno.setId(c.getLong(c.getColumnIndex("id")));
             aluno.setNome(c.getString(c.getColumnIndex("nome")));
@@ -86,7 +83,6 @@ public class AlunoDAO extends SQLiteOpenHelper {
             aluno.setCaminhoFoto(c.getString(c.getColumnIndex("caminhoFoto")));
 
             alunos.add(aluno);
-
         }
         c.close();
 
@@ -94,32 +90,26 @@ public class AlunoDAO extends SQLiteOpenHelper {
     }
 
     public void deleta(Aluno aluno) {
-        SQLiteDatabase database = getWritableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         String[] params = {aluno.getId().toString()};
-        database.delete("Alunos","id = ?", params);//a interrogação sao os dados dos parametros
-
+        db.delete("Alunos", "id = ?", params);//a interrogação sao os dados dos parametros
     }
 
-    public void altear(Aluno aluno) {
-        SQLiteDatabase database = getWritableDatabase();
+    public void altera(Aluno aluno) {
+        SQLiteDatabase db = getWritableDatabase();
 
-        ContentValues dados = getContentValuesDoALuno(aluno);
+        ContentValues dados = pegaDadosDoAluno(aluno);
 
         String[] params = {aluno.getId().toString()};
-        database.update("Alunos", dados, "id = ?", params);
+        db.update("Alunos", dados, "id = ?", params);
     }
 
-    public boolean ehAluno(String telefone){
-        SQLiteDatabase database = getReadableDatabase();
-
-        String[] params = {telefone};
-
-        Cursor c = database.rawQuery("SELECT * FROM ALunos WHERE telefone = ?", params);
-        int resultado = c.getCount();
+    public boolean ehAluno(String telefone) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM Alunos WHERE telefone = ?", new String[]{telefone});
+        int resultados = c.getCount();
         c.close();
-
-        return resultado > 0;
-
+        return resultados > 0;
     }
 }

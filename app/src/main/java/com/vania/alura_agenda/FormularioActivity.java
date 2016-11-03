@@ -90,9 +90,9 @@ public class FormularioActivity extends AppCompatActivity {
 
                 AlunoDAO dao = new AlunoDAO(this);
                 if (aluno.getId() == null) {
-                    dao.inserir(aluno);
+                    dao.insere(aluno);
                 } else {
-                    dao.altear(aluno);
+                    dao.altera(aluno);
                 }
                 dao.close();
 
