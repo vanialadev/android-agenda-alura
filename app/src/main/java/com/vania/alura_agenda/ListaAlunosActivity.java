@@ -10,11 +10,11 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.vania.alura_agenda.adapter.AlunosAdapter;
 import com.vania.alura_agenda.dao.AlunoDAO;
 import com.vania.alura_agenda.modelo.Aluno;
 
@@ -30,8 +30,10 @@ public class ListaAlunosActivity extends AppCompatActivity {
         dao.close(); //fecha o dao
 
 //        String[] alunos = {"João", "Marcelo", "Ana", "Zé", "João", "Marcelo", "Ana", "Zé", "João", "Marcelo", "Ana", "Zé", "João", "Marcelo", "Ana", "Zé"};
-        ArrayAdapter<Aluno> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alunos); //ArrayAdappter converte cada aluno em uma textView
+       // ArrayAdapter<Aluno> adapter = new ArrayAdapter<>(this, R.layout.list_item, alunos); //ArrayAdappter converte cada aluno em uma textView
+        //adapter pega um objeto java transforma em uma string e coloca dentro de um textview - por isso que usa o toString é o metodo que o adapter usa
         // adapter usa a toString do object pra imprmir aluno, entao tem qye reescrever o to String
+        AlunosAdapter adapter = new AlunosAdapter(this, alunos);
         listaAlunos.setAdapter(adapter);
     }
 

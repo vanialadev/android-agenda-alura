@@ -29,7 +29,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
                 "telefone TEXT," +
                 "site TEXT," +
                 "nota REAL" +
-                "caminhoFoto TEXT );";
+                "caminhoFoto TEXT);";
         sqLiteDatabase.execSQL(sql)
 
         ;
@@ -37,11 +37,11 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-     //   String sql = "DROP TABLE IF EXISTS Alunos;";
+//       String sql = "DROP TABLE IF EXISTS Alunos;";
         String sql = "";
         switch (oldVersion) {
             case 1:
-                sql = "ALTER TABLE Alunos ADD COLUMN caminhoFoto TEXT";
+                sql = "ALTER TABLE Alunos ADD COLUMN caminhoFoto TEXT;";
                 sqLiteDatabase.execSQL(sql); // indo para versao 2
         }
     }
@@ -108,5 +108,18 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
         String[] params = {aluno.getId().toString()};
         database.update("Alunos", dados, "id = ?", params);
+    }
+
+    public boolean ehAluno(String telefone){
+        SQLiteDatabase database = getReadableDatabase();
+
+        String[] params = {telefone};
+
+        Cursor c = database.rawQuery("SELECT * FROM ALunos WHERE telefone = ?", params);
+        int resultado = c.getCount();
+        c.close();
+
+        return resultado > 0;
+
     }
 }

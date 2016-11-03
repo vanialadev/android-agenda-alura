@@ -19,9 +19,14 @@ android {
     }
 }
 
+def Junit = '4.12'
+def AndroidSuport = '24.0.0'
+def CircleImageView = '2.1.0'
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
+    testCompile "junit:junit:$Junit"
+    compile "com.android.support:appcompat-v7:$AndroidSuport"
+    compile "com.android.support:design:$AndroidSuport"
+    compile "de.hdodenhof:circleimageview:$CircleImageView"
 }
