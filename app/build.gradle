@@ -24,9 +24,10 @@ def AndroidSuport = '24.0.0'
 def CircleImageView = '2.1.0'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile "junit:junit:$Junit"
     compile "com.android.support:appcompat-v7:$AndroidSuport"
     compile "com.android.support:design:$AndroidSuport"
     compile "de.hdodenhof:circleimageview:$CircleImageView"
+    compile 'com.android.support:cardview-v7:24.0.+'
 }

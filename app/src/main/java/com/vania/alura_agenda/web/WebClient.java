@@ -1,4 +1,4 @@
-package com.vania.alura_agenda;
+package com.vania.alura_agenda.web;
 
 import java.io.IOException;
 import java.io.PrintStream;

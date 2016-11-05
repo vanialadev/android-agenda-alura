@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.vania.alura_agenda.adapter.AlunosAdapter;
 import com.vania.alura_agenda.dao.AlunoDAO;
 import com.vania.alura_agenda.modelo.Aluno;
+import com.vania.alura_agenda.tasks.EnviaAlunosTask;
 
 import java.util.List;
 
@@ -107,9 +108,14 @@ public class ListaAlunosActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+
             case R.id.menu_enviar_notas:
                 new EnviaAlunosTask(this).execute();
+                break;
 
+            case R.id.menu_baixar_provas:
+                Intent vaiPraProvas = new Intent(this, ProvasActivity.class);
+                startActivity(vaiPraProvas);
                 break;
         }
 

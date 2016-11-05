@@ -1,10 +1,11 @@
-package com.vania.alura_agenda;
+package com.vania.alura_agenda.tasks;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.vania.alura_agenda.web.WebClient;
 import com.vania.alura_agenda.converter.AlunoConverter;
 import com.vania.alura_agenda.dao.AlunoDAO;
 import com.vania.alura_agenda.modelo.Aluno;
