@@ -25,16 +25,21 @@ public class MapaActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                String[] permissoes = {android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION};
+                String[] permissoes = {android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION};
                 requestPermissions(permissoes, REQUEST_PERMISSOES);
+
+                finish();
+            } else {
+
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                mapaFragment = new MapaFragment();
+                transaction.replace(R.id.frame_mapa, mapaFragment);
+                transaction.commit();
+
             }
         }
-
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        mapaFragment = new MapaFragment();
-        transaction.replace(R.id.frame_mapa, mapaFragment);
-        transaction.commit();
 
     }
 

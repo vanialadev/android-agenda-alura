@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.telephony.SmsMessage;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.vania.alura_agenda.R;
@@ -27,7 +28,8 @@ public class SMSReceiver extends BroadcastReceiver {
         SmsMessage smsMessage = SmsMessage.createFromPdu(pdu,formato);
 
         String telefone = smsMessage.getDisplayOriginatingAddress();
-//        Log.d("teste", smsMessage.getDisplayMessageBody()); pegando o conteudo da mensagem
+        Log.d("teste", smsMessage.getDisplayMessageBody()); //pegando o conteudo da mensagem
+        Log.d("teste", smsMessage.getDisplayOriginatingAddress()); //pegando o conteudo da mensagem
 
         AlunoDAO dao = new AlunoDAO(context);
 
