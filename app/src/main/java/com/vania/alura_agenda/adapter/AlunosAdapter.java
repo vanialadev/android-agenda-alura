@@ -57,8 +57,8 @@ public class AlunosAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.list_item, parent, false); // opcao diz quem vai ser o pai desse layout o flase é pra nao colocar log opra dentro, so quando a llista chamar
         }
 
-        TextView campoNome = (TextView) view.findViewById(R.id.item_nome);
-        campoNome.setText(aluno.getNome());
+            TextView campoNome = (TextView) view.findViewById(R.id.item_nome);
+            campoNome.setText(aluno.getNome());
 
         TextView campoTelefone = (TextView) view.findViewById(R.id.item_telefone);
         campoTelefone.setText(aluno.getTelefone());

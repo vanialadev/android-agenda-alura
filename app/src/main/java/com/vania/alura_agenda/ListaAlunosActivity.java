@@ -46,7 +46,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
        // ArrayAdapter<Aluno> adapter = new ArrayAdapter<>(this, R.layout.list_item, alunos); //ArrayAdappter converte cada aluno em uma textView
         //adapter pega um objeto java transforma em uma string e coloca dentro de um textview - por isso que usa o toString é o metodo que o adapter usa
         // adapter usa a toString do object pra imprmir aluno, entao tem qye reescrever o to String
-        AlunosAdapter adapter = new AlunosAdapter(this, alunos);
+        AlunosAdap  ter adapter = new AlunosAdapter(this, alunos);
         listaAlunos.setAdapter(adapter);
     }
 

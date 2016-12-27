@@ -54,17 +54,17 @@ public class AlunoDAO extends SQLiteOpenHelper {
         db.insert("Alunos", null, dados);
     }
 
-    @NonNull
-    private ContentValues pegaDadosDoAluno(Aluno aluno) {
-        ContentValues dados = new ContentValues();
-        dados.put("nome", aluno.getNome());
-        dados.put("endereco", aluno.getEndereco());
-        dados.put("telefone", aluno.getTelefone());
-        dados.put("site", aluno.getSite());
-        dados.put("nota", aluno.getNota());
-        dados.put("caminhoFoto", aluno.getCaminhoFoto());
-        return dados;
-    }
+        @NonNull
+        private ContentValues pegaDadosDoAluno(Aluno aluno) {
+            ContentValues dados = new ContentValues();
+            dados.put("nome", aluno.getNome());
+            dados.put("endereco", aluno.getEndereco());
+            dados.put("telefone", aluno.getTelefone());
+            dados.put("site", aluno.getSite());
+            dados.put("nota", aluno.getNota());
+            dados.put("caminhoFoto", aluno.getCaminhoFoto());
+            return dados;
+        }
 
     public List<Aluno> buscaAlunos() {
         String sql = "SELECT * FROM Alunos;";
